@@ -1,13 +1,26 @@
 package com.demo.legacy;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-public class LegacyOrderItem {
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
+public class LegacyOrderItem implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @NotNull
     private String sku;
+
+    @Min(1)
     private int quantity;
+
+    @NotNull
     private BigDecimal unitPrice;
+
+    private LegacyMoney discount;
 
     public LegacyOrderItem() {
     }
@@ -42,35 +55,11 @@ public class LegacyOrderItem {
         this.unitPrice = unitPrice;
     }
 
-    public BigDecimal lineTotal() {
-        return unitPrice.multiply(BigDecimal.valueOf(quantity));
+    public LegacyMoney getDiscount() {
+        return discount;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof LegacyOrderItem)) {
-            return false;
-        }
-        LegacyOrderItem that = (LegacyOrderItem) o;
-        return quantity == that.quantity
-                && Objects.equals(sku, that.sku)
-                && Objects.equals(unitPrice, that.unitPrice);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(sku, quantity, unitPrice);
-    }
-
-    @Override
-    public String toString() {
-        return "LegacyOrderItem{" +
-                "sku='" + sku + '\'' +
-                ", quantity=" + quantity +
-                ", unitPrice=" + unitPrice +
-                '}';
+    public void setDiscount(LegacyMoney discount) {
+        this.discount = discount;
     }
 }

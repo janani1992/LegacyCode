@@ -1,12 +1,26 @@
 package com.demo.legacy;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class LegacyAddress {
+import javax.validation.constraints.NotNull;
 
+public class LegacyAddress implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @NotNull
     private String line1;
+
+    private String line2;
+
+    @NotNull
     private String city;
+
+    @NotNull
     private String country;
+
+    @NotNull
     private String postalCode;
 
     public LegacyAddress() {
@@ -25,6 +39,14 @@ public class LegacyAddress {
 
     public void setLine1(String line1) {
         this.line1 = line1;
+    }
+
+    public String getLine2() {
+        return line2;
+    }
+
+    public void setLine2(String line2) {
+        this.line2 = line2;
     }
 
     public String getCity() {
@@ -49,35 +71,5 @@ public class LegacyAddress {
 
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof LegacyAddress)) {
-            return false;
-        }
-        LegacyAddress that = (LegacyAddress) o;
-        return Objects.equals(line1, that.line1)
-                && Objects.equals(city, that.city)
-                && Objects.equals(country, that.country)
-                && Objects.equals(postalCode, that.postalCode);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(line1, city, country, postalCode);
-    }
-
-    @Override
-    public String toString() {
-        return "LegacyAddress{" +
-                "line1='" + line1 + '\'' +
-                ", city='" + city + '\'' +
-                ", country='" + country + '\'' +
-                ", postalCode='" + postalCode + '\'' +
-                '}';
     }
 }

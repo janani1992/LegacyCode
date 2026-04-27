@@ -1,42 +1,55 @@
 package com.demo.legacy;
 
-import java.math.BigDecimal;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-public class LegacyOrder {
+import javax.validation.constraints.NotNull;
 
-    private String orderId;
-    private LegacyCustomer customer;
-    private List<LegacyOrderItem> items;
+public class LegacyOrder implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @NotNull
+    private String orderNo;
+
+    @NotNull
+    private LegacyCustomerProfile customer;
+
+    @NotNull
+    private List<LegacyOrderItem> items = new ArrayList<>();
+
+    @NotNull
     private LegacyOrderStatus status;
 
+    @NotNull
+    private Date createdAt;
+
     public LegacyOrder() {
-        this.items = new ArrayList<LegacyOrderItem>();
-        this.status = LegacyOrderStatus.CREATED;
     }
 
-    public LegacyOrder(String orderId, LegacyCustomer customer, List<LegacyOrderItem> items, LegacyOrderStatus status) {
-        this.orderId = Objects.requireNonNull(orderId, "orderId");
+    public LegacyOrder(String orderNo, LegacyCustomerProfile customer, LegacyOrderStatus status, Date createdAt) {
+        this.orderNo = Objects.requireNonNull(orderNo, "orderNo");
         this.customer = Objects.requireNonNull(customer, "customer");
-        this.items = new ArrayList<LegacyOrderItem>(Objects.requireNonNull(items, "items"));
         this.status = Objects.requireNonNull(status, "status");
+        this.createdAt = Objects.requireNonNull(createdAt, "createdAt");
     }
 
-    public String getOrderId() {
-        return orderId;
+    public String getOrderNo() {
+        return orderNo;
     }
 
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo;
     }
 
-    public LegacyCustomer getCustomer() {
+    public LegacyCustomerProfile getCustomer() {
         return customer;
     }
 
-    public void setCustomer(LegacyCustomer customer) {
+    public void setCustomer(LegacyCustomerProfile customer) {
         this.customer = customer;
     }
 
@@ -56,41 +69,11 @@ public class LegacyOrder {
         this.status = status;
     }
 
-    public BigDecimal totalAmount() {
-        BigDecimal total = BigDecimal.ZERO;
-        for (LegacyOrderItem item : items) {
-            total = total.add(item.lineTotal());
-        }
-        return total;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof LegacyOrder)) {
-            return false;
-        }
-        LegacyOrder that = (LegacyOrder) o;
-        return Objects.equals(orderId, that.orderId)
-                && Objects.equals(customer, that.customer)
-                && Objects.equals(items, that.items)
-                && status == that.status;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(orderId, customer, items, status);
-    }
-
-    @Override
-    public String toString() {
-        return "LegacyOrder{" +
-                "orderId='" + orderId + '\'' +
-                ", customer=" + customer +
-                ", items=" + items +
-                ", status=" + status +
-                '}';
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 }

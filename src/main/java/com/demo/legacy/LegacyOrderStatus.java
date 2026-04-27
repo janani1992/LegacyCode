@@ -4,6 +4,5 @@ public enum LegacyOrderStatus {
     CREATED,
     PAID,
     SHIPPED,
-    DELIVERED,
     CANCELLED
 }
